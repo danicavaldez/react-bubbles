@@ -21,14 +21,24 @@ const ColorList = ({ colors, updateColors }) => {
     e.preventDefault();
     axiosWithAuth()
       .put(`/colors/${colorToEdit.id}`, colorToEdit)
-      .then(res => console.log(res))
+      .then(res => {
+        console.log(res)
+        axiosWithAuth()
+          .get('/colors')
+          .then(res => updateColors(res.data))
+      })
       .catch(err => console.log("Something's broken", err))
   };
 
   const deleteColor = color => {
     axiosWithAuth()
       .delete(`/colors/${color.id}`)
-      .then(res => console.log(res))
+      .then(res => {
+        console.log(res)
+        axiosWithAuth()
+        .get('/colors')
+        .then(res => updateColors(res.data))
+      })
       .catch(err => console.log("Something's broken", err))      
   };
 
